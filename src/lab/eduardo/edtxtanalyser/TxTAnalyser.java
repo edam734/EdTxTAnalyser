@@ -16,7 +16,7 @@ public class TxTAnalyser {
 
     public static final String ORIGIN = "files";
     public static final String DESTINY = "output";
-    
+
     public static final Charset ENCODING = StandardCharsets.ISO_8859_1;
 
     public static void main(String[] args) {
@@ -53,14 +53,12 @@ public class TxTAnalyser {
     private static void analyse(String filename) throws IOException {
         String[] parts = filename.split("\\.");
         StringBuilder sb = new StringBuilder(DESTINY).append(File.separator);
-        for (int i = 0; i < parts.length-1; i++) {
+        for (int i = 0; i < parts.length - 1; i++) {
             sb.append(parts[i]);
         }
         sb.append("_ANALYSED.TXT");
         String originName = new StringBuilder(ORIGIN).append(File.separator).append(filename).toString();
         String destinyName = sb.toString();
-        System.out.println("originName: " + originName);
-        System.out.println("destinyName: " + destinyName);
         Processor processor = new Processor(originName, destinyName, TxTAnalyser.ENCODING);
         processor.execute();
     }
@@ -84,5 +82,5 @@ public class TxTAnalyser {
                     .collect(Collectors.toSet());
         }
     }
-    
+
 }

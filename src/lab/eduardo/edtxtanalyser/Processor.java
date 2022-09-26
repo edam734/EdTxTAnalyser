@@ -7,6 +7,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class Processor {
@@ -41,6 +43,25 @@ public class Processor {
                 }
             });
         }
+    }
+    
+    private class WordsMap {
+
+        private Map<String, Integer> words = new HashMap<>();
+
+        public Map<String, Integer> getWords() {
+            return words;
+        }
+
+        public Integer add(String word) {
+            int ammount = 1;
+            if (words.containsKey(word)) {
+                ammount = words.get(word) + 1;
+            }
+
+            return words.put(word, ammount);
+        }
+
     }
 
 }
