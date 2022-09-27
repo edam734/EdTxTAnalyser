@@ -36,7 +36,7 @@ public class Processor {
         try (BufferedWriter writer = Files.newBufferedWriter(destiny, encoding)) {
             words.getWords().entrySet().forEach(entry -> {
                 try {
-                    writer.append(entry.getKey() + " : " + entry.getValue());
+                    writer.append(WordsMap.entryToString(entry));
                     writer.newLine();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -45,7 +45,7 @@ public class Processor {
         }
     }
     
-    private class WordsMap {
+    private static class WordsMap {
 
         private Map<String, Integer> words = new HashMap<>();
 
@@ -60,6 +60,10 @@ public class Processor {
             }
 
             return words.put(word, ammount);
+        }
+        
+        public static String entryToString(final java.util.Map.Entry<String, Integer> entry) {
+            return new StringBuilder(entry.getKey()).append(" : ").append(entry.getValue()).toString();
         }
 
     }
