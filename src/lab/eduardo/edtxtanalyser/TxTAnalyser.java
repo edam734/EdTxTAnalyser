@@ -23,22 +23,25 @@ public class TxTAnalyser {
 
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
-        boolean chosenOp = false;
+        boolean success = false;
         do {
             System.out.println("Analyse:");
-            System.out.println("1- all");
-            System.out.println("2- specific");
+            System.out.println("1- all files");
+            System.out.println("2- specific file");
+            System.out.println("3- exit");
             try {
                 int op = sc.nextInt();
                 sc.nextLine();
                 if (op == 1) {
                     analyseAll(TxTAnalyser.ORIGIN);
-                    chosenOp = true;
+                    success = true;
                 } else if (op == 2) {
-                    System.out.println("File name: ");
+                    System.out.println("File name (extension included): ");
                     String filename = sc.nextLine();
                     analyse(filename);
-                    chosenOp = true;
+                    success = true;
+                } else if (op == 3) {
+                    break;
                 } else {
                     System.out.println("WARN: unknown option. Try again.");
                     sc.nextLine();
@@ -49,20 +52,20 @@ public class TxTAnalyser {
             } catch (NoSuchFileException e2) {
                 System.out.println("WARN: the file dosen't exist. Try again.");
             }
-        } while (!chosenOp);
+        } while (!success);
 
         sc.close();
     }
 
-    private static void analyse(final String filename) throws IOException, NoSuchFileException {
+    private static String removeExtension(String filename) {
         String[] parts = filename.split("\\.");
-        StringBuilder sb = new StringBuilder(TxTAnalyser.DESTINY).append(File.separator);
-        for (int i = 0; i < parts.length - 1; i++) {
-            sb.append(parts[i]);
-        }
-        sb.append("_ANALYSED.TXT");
+        return Stream.of(parts).filter(p -> !p.equalsIgnoreCase("txt")).collect(Collectors.joining("."));
+    }
+
+    private static void analyse(final String filename) throws IOException, NoSuchFileException {
         String originName = new StringBuilder(TxTAnalyser.ORIGIN).append(File.separator).append(filename).toString();
-        String destinyName = sb.toString();
+        String destinyName = new StringBuilder(TxTAnalyser.DESTINY).append(File.separator)
+                .append(removeExtension(filename)).append("_ANALYSED.TXT").toString();
         Processor processor = new Processor(originName, destinyName, TxTAnalyser.ENCODING);
         processor.execute();
     }
