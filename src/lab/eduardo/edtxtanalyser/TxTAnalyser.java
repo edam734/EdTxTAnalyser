@@ -59,7 +59,7 @@ public class TxTAnalyser {
 
     private static String removeExtension(String filename) {
         String[] parts = filename.split("\\.");
-        return Stream.of(parts).filter(p -> !p.equalsIgnoreCase("txt")).collect(Collectors.joining("."));
+        return Stream.of(parts).limit(parts.length-1).collect(Collectors.joining("."));
     }
 
     private static void analyse(final String filename) throws IOException, NoSuchFileException {
@@ -72,8 +72,6 @@ public class TxTAnalyser {
 
     private static void analyseAll(final String dir) throws IOException {
         Set<String> files = getAllDirectoryFiles(dir);
-
-//        files.stream().forEach(filename -> System.out.println(filename));
         files.stream().forEach(filename -> {
             try {
                 analyse(filename);
