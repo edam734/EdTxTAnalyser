@@ -29,7 +29,7 @@ public class Processor {
         String line = "";
         try (BufferedReader reader = Files.newBufferedReader(origin, encoding)) {
             while((line = reader.readLine()) != null) { 
-                String parts[] = line.toLowerCase().split("[^\\w&&[^']]");
+                String parts[] = line.toLowerCase().replaceAll("[^a-zA-Z ]", "").split("\\s+");
                 Stream.of(parts).forEach(w -> words.add(w));
             }
         }

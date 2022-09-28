@@ -1,0 +1,4 @@
+teste : 1
+de : 1
+batatas : 3
+mais : 1
